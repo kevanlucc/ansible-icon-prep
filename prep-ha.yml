@@ -2,4 +2,5 @@
 - hosts: all
   become: true
   roles:
-    - pacemaker
+    - pacemaker-passive
+    - ansible-role-pacemaker 
