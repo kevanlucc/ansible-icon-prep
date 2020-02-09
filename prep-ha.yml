@@ -1,14 +1,6 @@
 ---
- - hosts: all
-   become: true
-   roles:
-#     - pacemaker-passive
-  # - ansible-role-pacemaker 
-    - { role:
-        'icon-pacemaker-passive',
-         gather_facts: true
-      }
-  #- ondrejhome.ha-cluster-pacemaker
-#- hosts: all
- # roles:
- #    - { role: 'ondrejhome.ha-cluster-pacemaker', cluster_name: 'test-cluster', cluster_firewall: false, cluster_configure_fence_xvm: false, user: ubuntu, private-key: ~/.ssh/icon_node }
+- hosts: all
+  become: true
+  roles:
+    - pacemaker-passive
+    - ansible-role-pacemaker 
