@@ -1,0 +1,26 @@
+---
+- name: |-
+    {{  'Set ' ~ nvpair.key ~ ': ' }}
+    {%- if nvpair.value is sameas(true) %}
+    {{    'true' }}
+    {%- elif nvpair.value is sameas(false) %}
+    {{    'false' }}
+    {%- else %}
+    {{    nvpair.value }}
+    {%- endif %}
+  xml:
+    path: "{{ pcmk_config.path }}"
+    xpath: >-
+      {{ nvpair_parent ~
+      ('/nvpair[@name="%(name)s" and @id="%(parent)s-%(name)s"]'
+      | format(name = nvpair.key, parent = parent_id)) }}
+    attribute: value
+    value: |-
+      {%  if nvpair.value is sameas(true) %}
+      {{    'true' }}
+      {%- elif nvpair.value is sameas(false) %}
+      {{    'false' }}
+      {%- else %}
+      {{    nvpair.value }}
+      {%- endif %}
+  check_mode: false

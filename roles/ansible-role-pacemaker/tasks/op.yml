@@ -1,0 +1,33 @@
+---
+- name: >-
+    Create operation {{ op_properties.name | mandatory }}
+    interval {{ op_properties.interval | mandatory }}
+  xml:
+    path: "{{ pcmk_config.path }}"
+    xpath: >-
+      {{ op_parent ~ ('/op[@id="%(parent)s-%(name)s-interval-%(int)s"]'
+      | format(parent = parent_id, name = op_properties.name, int = op_properties.interval)) }}
+  check_mode: false
+
+- name: >-
+    Set properties for {{ op_properties.name }}
+    interval {{ op_properties.interval | mandatory }}
+  xml:
+    path: "{{ pcmk_config.path }}"
+    xpath: >-
+      {{ op_parent ~ ('/op[@id="%(parent)s-%(name)s-interval-%(int)s"]'
+      | format(parent = parent_id, name = op_properties.name, int = op_properties.interval)) }}
+    attribute: "{{ property.key }}"
+    value: |-
+      {%  if property.value is sameas(true) %}
+      {{    'true' }}
+      {%- elif property.value is sameas(false) %}
+      {{    'false' }}
+      {%- else %}
+      {{    property.value }}
+      {%- endif %}
+  with_dict: "{{ op_properties }}"
+  loop_control:
+    loop_var: property
+    label: "{{ '{' ~ property.key ~ ': ' ~ property.value ~ '}' }}"
+  check_mode: false
