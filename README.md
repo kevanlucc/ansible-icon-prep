@@ -1,6 +1,13 @@
-# ansible-icon-prep
+# ansible-icon-prep-ha
 
 Ansible playbooks and roles for the ICON Blockchain 
+
+This role will configure nodes to be Highly available. manual testing can be done after deployment by stopping a node:
+``` pcs cluster stop node1```
+check the status with
+``` pcs status```
+and you will see the primary node is down, and the cluster IP has been switched over to the second node.
+
 
 > To work with this repo, you need to install `meta` to pull in sub-repos 
 
